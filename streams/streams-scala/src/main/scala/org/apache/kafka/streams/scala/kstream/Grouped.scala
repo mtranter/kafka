@@ -23,8 +23,8 @@ import org.apache.kafka.streams.kstream.{Grouped => GroupedJ}
 object Grouped {
 
   /**
-   * Construct a `Grouped` instance with the provided key and value [[Serde]]s.
-   * If the [[Serde]] params are `null` the default serdes defined in the configs will be used.
+   * Construct a `Grouped` instance with the provided [[KeySerde]] and [[ValueSerde]].
+   * If the [[KeySerde]] or [[ValueSerde]] params are `null` the default serdes defined in the configs will be used.
    *
    * @tparam K the key type
    * @tparam V the value type
@@ -36,8 +36,8 @@ object Grouped {
     GroupedJ.`with`(keySerde.serde, valueSerde.serde)
 
   /**
-   * Construct a `Grouped` instance with the provided key and value [[Serde]]s.
-   * If the [[Serde]] params are `null` the default serdes defined in the configs will be used.
+   * Construct a `Grouped` instance with the provided [[KeySerde]] and [[ValueSerde]].
+   * If the [[KeySerde]] or [[ValueSerde]] params are `null` the default serdes defined in the configs will be used.
    *
    * @tparam K the key type
    * @tparam V the value type

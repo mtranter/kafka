@@ -43,7 +43,7 @@ object Consumed {
     ConsumedJ.`with`(keySerde.serde, valueSerde.serde, timestampExtractor, resetPolicy)
 
   /**
-   * Create an instance of [[Consumed]] with key and value [[Serde]]s.
+   * Create an instance of [[Consumed]] with [[KeySerde]] and [[ValueSerde]].
    *
    * @tparam K         key type
    * @tparam V         value type

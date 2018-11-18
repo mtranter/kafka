@@ -17,14 +17,14 @@
 
 package org.apache.kafka.streams.scala.kstream
 
-import org.apache.kafka.streams.scala.{KeySerde, ValueSerde}
+import org.apache.kafka.streams.scala.{HasKeySerde, HasValueSerde}
 import org.apache.kafka.streams.kstream.{Grouped => GroupedJ}
 
 object Grouped {
 
   /**
-   * Construct a `Grouped` instance with the provided [[KeySerde]] and [[ValueSerde]].
-   * If the [[KeySerde]] or [[ValueSerde]] params are `null` the default serdes defined in the configs will be used.
+   * Construct a `Grouped` instance with the provided [[HasKeySerde]] and [[HasValueSerde]].
+   * If the [[HasKeySerde]] or [[HasValueSerde]] params are `null` the default serdes defined in the configs will be used.
    *
    * @tparam K the key type
    * @tparam V the value type
@@ -32,12 +32,12 @@ object Grouped {
    * @param valueSerde valueSerde that will be used to materialize a stream
    * @return a new instance of [[Grouped]] configured with the provided serdes
    */
-  def `with`[K, V](implicit keySerde: KeySerde[K], valueSerde: ValueSerde[V]): GroupedJ[K, V] =
+  def `with`[K, V](implicit keySerde: HasKeySerde[K], valueSerde: HasValueSerde[V]): GroupedJ[K, V] =
     GroupedJ.`with`(keySerde.serde, valueSerde.serde)
 
   /**
-   * Construct a `Grouped` instance with the provided [[KeySerde]] and [[ValueSerde]].
-   * If the [[KeySerde]] or [[ValueSerde]] params are `null` the default serdes defined in the configs will be used.
+   * Construct a `Grouped` instance with the provided [[HasKeySerde]] and [[HasValueSerde]].
+   * If the [[HasKeySerde]] or [[HasValueSerde]] params are `null` the default serdes defined in the configs will be used.
    *
    * @tparam K the key type
    * @tparam V the value type
@@ -46,7 +46,7 @@ object Grouped {
    * @param valueSerde valueSerde that will be used to materialize a stream
    * @return a new instance of [[Grouped]] configured with the provided serdes
    */
-  def `with`[K, V](name: String)(implicit keySerde: KeySerde[K], valueSerde: ValueSerde[V]): GroupedJ[K, V] =
+  def `with`[K, V](name: String)(implicit keySerde: HasKeySerde[K], valueSerde: HasValueSerde[V]): GroupedJ[K, V] =
     GroupedJ.`with`(name, keySerde.serde, valueSerde.serde)
 
 }

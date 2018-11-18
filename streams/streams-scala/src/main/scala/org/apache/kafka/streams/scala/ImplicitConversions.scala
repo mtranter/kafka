@@ -62,21 +62,21 @@ object ImplicitConversions {
   // we would also like to allow users implicit serdes
   // and these implicits will convert them to `Grouped`, `Produced` or `Consumed`
 
-  implicit def groupedFromSerde[K, V](implicit keySerde: KeySerde[K], valueSerde: ValueSerde[V]): Grouped[K, V] =
+  implicit def groupedFromSerde[K, V](implicit keySerde: HasKeySerde[K], valueSerde: HasValueSerde[V]): Grouped[K, V] =
     Grouped.`with`[K, V]
 
-  implicit def consumedFromSerde[K, V](implicit keySerde: KeySerde[K], valueSerde: ValueSerde[V]): Consumed[K, V] =
+  implicit def consumedFromSerde[K, V](implicit keySerde: HasKeySerde[K], valueSerde: HasValueSerde[V]): Consumed[K, V] =
     Consumed.`with`[K, V]
 
-  implicit def producedFromSerde[K, V](implicit keySerde: KeySerde[K], valueSerde: ValueSerde[V]): Produced[K, V] =
+  implicit def producedFromSerde[K, V](implicit keySerde: HasKeySerde[K], valueSerde: HasValueSerde[V]): Produced[K, V] =
     Produced.`with`[K, V]
 
-  implicit def materializedFromSerde[K, V, S <: StateStore](implicit keySerde: KeySerde[K],
-                                                            valueSerde: ValueSerde[V]): Materialized[K, V, S] =
+  implicit def materializedFromSerde[K, V, S <: StateStore](implicit keySerde: HasKeySerde[K],
+                                                            valueSerde: HasValueSerde[V]): Materialized[K, V, S] =
     Materialized.`with`[K, V, S]
 
-  implicit def joinedFromKeyValueOtherSerde[K, V, VO](implicit keySerde: KeySerde[K],
-                                                      valueSerde: ValueSerde[V],
-                                                      otherValueSerde: ValueSerde[VO]): Joined[K, V, VO] =
+  implicit def joinedFromKeyValueOtherSerde[K, V, VO](implicit keySerde: HasKeySerde[K],
+                                                      valueSerde: HasValueSerde[V],
+                                                      otherValueSerde: HasValueSerde[VO]): Joined[K, V, VO] =
     Joined.`with`[K, V, VO]
 }

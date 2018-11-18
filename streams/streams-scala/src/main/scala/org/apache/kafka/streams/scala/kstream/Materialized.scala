@@ -16,7 +16,7 @@
  */
 package org.apache.kafka.streams.scala.kstream
 
-import org.apache.kafka.streams.scala.{KeySerde, ValueSerde}
+import org.apache.kafka.streams.scala.{HasKeySerde, HasValueSerde}
 import org.apache.kafka.streams.kstream.{Materialized => MaterializedJ}
 import org.apache.kafka.streams.processor.StateStore
 import org.apache.kafka.streams.scala.{ByteArrayKeyValueStore, ByteArraySessionStore, ByteArrayWindowStore}
@@ -35,7 +35,7 @@ object Materialized {
    * @param valueSerde the value [[Serde]] to use.
    * @return a new [[Materialized]] instance with the given key and value serdes
    */
-  def `with`[K, V, S <: StateStore](implicit keySerde: KeySerde[K], valueSerde: ValueSerde[V]): MaterializedJ[K, V, S] =
+  def `with`[K, V, S <: StateStore](implicit keySerde: HasKeySerde[K], valueSerde: HasValueSerde[V]): MaterializedJ[K, V, S] =
     MaterializedJ.`with`(keySerde.serde, valueSerde.serde)
 
   /**
@@ -50,8 +50,8 @@ object Materialized {
    * @param valueSerde the value serde to use.
    * @return a new [[Materialized]] instance with the given storeName
    */
-  def as[K, V, S <: StateStore](storeName: String)(implicit keySerde: KeySerde[K],
-                                                   valueSerde: ValueSerde[V]): MaterializedJ[K, V, S] =
+  def as[K, V, S <: StateStore](storeName: String)(implicit keySerde: HasKeySerde[K],
+                                                   valueSerde: HasValueSerde[V]): MaterializedJ[K, V, S] =
     MaterializedJ.as(storeName).withKeySerde(keySerde.serde).withValueSerde(valueSerde.serde)
 
   /**
@@ -70,7 +70,7 @@ object Materialized {
    */
   def as[K, V](
     supplier: WindowBytesStoreSupplier
-  )(implicit keySerde: KeySerde[K], valueSerde: ValueSerde[V]): MaterializedJ[K, V, ByteArrayWindowStore] =
+  )(implicit keySerde: HasKeySerde[K], valueSerde: HasValueSerde[V]): MaterializedJ[K, V, ByteArrayWindowStore] =
     MaterializedJ.as(supplier).withKeySerde(keySerde.serde).withValueSerde(valueSerde.serde)
 
   /**
@@ -89,7 +89,7 @@ object Materialized {
    */
   def as[K, V](
     supplier: SessionBytesStoreSupplier
-  )(implicit keySerde: KeySerde[K], valueSerde: ValueSerde[V]): MaterializedJ[K, V, ByteArraySessionStore] =
+  )(implicit keySerde: HasKeySerde[K], valueSerde: HasValueSerde[V]): MaterializedJ[K, V, ByteArraySessionStore] =
     MaterializedJ.as(supplier).withKeySerde(keySerde.serde).withValueSerde(valueSerde.serde)
 
   /**
@@ -104,6 +104,6 @@ object Materialized {
    */
   def as[K, V](
     supplier: KeyValueBytesStoreSupplier
-  )(implicit keySerde: KeySerde[K], valueSerde: ValueSerde[V]): MaterializedJ[K, V, ByteArrayKeyValueStore] =
+  )(implicit keySerde: HasKeySerde[K], valueSerde: HasValueSerde[V]): MaterializedJ[K, V, ByteArrayKeyValueStore] =
     MaterializedJ.as(supplier).withKeySerde(keySerde.serde).withValueSerde(valueSerde.serde)
 }

@@ -16,7 +16,7 @@
  */
 package org.apache.kafka.streams.scala.kstream
 
-import org.apache.kafka.streams.scala.{KeySerde, ValueSerde}
+import org.apache.kafka.streams.scala.{HasKeySerde, HasValueSerde}
 import org.apache.kafka.streams.kstream.{Consumed => ConsumedJ}
 import org.apache.kafka.streams.Topology
 import org.apache.kafka.streams.processor.TimestampExtractor
@@ -39,17 +39,17 @@ object Consumed {
   def `with`[K, V](
     timestampExtractor: TimestampExtractor,
     resetPolicy: Topology.AutoOffsetReset
-  )(implicit keySerde: KeySerde[K], valueSerde: ValueSerde[V]): ConsumedJ[K, V] =
+  )(implicit keySerde: HasKeySerde[K], valueSerde: HasValueSerde[V]): ConsumedJ[K, V] =
     ConsumedJ.`with`(keySerde.serde, valueSerde.serde, timestampExtractor, resetPolicy)
 
   /**
-   * Create an instance of [[Consumed]] with [[KeySerde]] and [[ValueSerde]].
+   * Create an instance of [[Consumed]] with [[HasKeySerde]] and [[HasValueSerde]].
    *
    * @tparam K         key type
    * @tparam V         value type
    * @return a new instance of [[Consumed]]
    */
-  def `with`[K, V](implicit keySerde: KeySerde[K], valueSerde: ValueSerde[V]): ConsumedJ[K, V] =
+  def `with`[K, V](implicit keySerde: HasKeySerde[K], valueSerde: HasValueSerde[V]): ConsumedJ[K, V] =
     ConsumedJ.`with`(keySerde.serde, valueSerde.serde)
 
   /**
@@ -61,8 +61,8 @@ object Consumed {
    * @tparam V                 value type
    * @return a new instance of [[Consumed]]
    */
-  def `with`[K, V](timestampExtractor: TimestampExtractor)(implicit keySerde: KeySerde[K],
-                                                           valueSerde: ValueSerde[V]): ConsumedJ[K, V] =
+  def `with`[K, V](timestampExtractor: TimestampExtractor)(implicit keySerde: HasKeySerde[K],
+                                                           valueSerde: HasValueSerde[V]): ConsumedJ[K, V] =
     ConsumedJ.`with`(timestampExtractor).withKeySerde(keySerde.serde).withValueSerde(valueSerde.serde)
 
   /**
@@ -73,7 +73,7 @@ object Consumed {
    * @param resetPolicy the offset reset policy to be used. If `null` the default reset policy from config will be used
    * @return a new instance of [[Consumed]]
    */
-  def `with`[K, V](resetPolicy: Topology.AutoOffsetReset)(implicit keySerde: KeySerde[K],
-                                                          valueSerde: ValueSerde[V]): ConsumedJ[K, V] =
+  def `with`[K, V](resetPolicy: Topology.AutoOffsetReset)(implicit keySerde: HasKeySerde[K],
+                                                          valueSerde: HasValueSerde[V]): ConsumedJ[K, V] =
     ConsumedJ.`with`(resetPolicy).withKeySerde(keySerde.serde).withValueSerde(valueSerde.serde)
 }

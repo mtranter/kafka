@@ -24,26 +24,26 @@ import java.util
 import org.apache.kafka.common.serialization.{Deserializer, Serde, Serializer, Serdes => JSerdes}
 import org.apache.kafka.streams.kstream.WindowedSerdes
 
-trait KeySerde[T] {
+trait HasKeySerde[T] {
   def serde: Serde[T]
 }
 
-trait ValueSerde[T] {
+trait HasValueSerde[T] {
   def serde: Serde[T]
 }
 
-object KeySerde {
-  def apply[T](serde: Serde[T]) = new WrappedKeySerde[T](serde)
+object HasKeySerde {
+  def apply[T](serde: Serde[T]) = new WrappedHasKeySerde[T](serde)
 
-  class WrappedKeySerde[T](wrapped: Serde[T]) extends KeySerde[T] {
+  class WrappedHasKeySerde[T](wrapped: Serde[T]) extends HasKeySerde[T] {
     def serde = wrapped
   }
 }
 
-object ValueSerde {
-  def apply[T](serde: Serde[T]) = new WrappedValueSerde[T](serde)
+object HasValueSerde {
+  def apply[T](serde: Serde[T]) = new WrappedHasValueSerde[T](serde)
 
-  class WrappedValueSerde[T](wrapped: Serde[T]) extends ValueSerde[T] {
+  class WrappedHasValueSerde[T](wrapped: Serde[T]) extends HasValueSerde[T] {
     def serde = wrapped
   }
 }
@@ -95,7 +95,7 @@ object Serdes {
     )
 
   object keyValueAgnostic {
-    implicit def keySerdeFromSerde[T](implicit inner: Serde[T]): KeySerde[T] = KeySerde[T](inner)
-    implicit def valueSerdeFromSerde[T](implicit inner: Serde[T]): ValueSerde[T] = ValueSerde[T](inner)
+    implicit def keySerdeFromSerde[T](implicit inner: Serde[T]): HasKeySerde[T] = HasKeySerde[T](inner)
+    implicit def valueSerdeFromSerde[T](implicit inner: Serde[T]): HasValueSerde[T] = HasValueSerde[T](inner)
   }
 }

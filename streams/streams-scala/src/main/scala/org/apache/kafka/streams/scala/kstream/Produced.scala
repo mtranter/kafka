@@ -16,7 +16,7 @@
  */
 package org.apache.kafka.streams.scala.kstream
 
-import org.apache.kafka.streams.scala.{KeySerde, ValueSerde}
+import org.apache.kafka.streams.scala.{HasKeySerde, HasValueSerde}
 import org.apache.kafka.streams.kstream.{Produced => ProducedJ}
 import org.apache.kafka.streams.processor.StreamPartitioner
 
@@ -33,7 +33,7 @@ object Produced {
    * @see KStream#through(String, Produced)
    * @see KStream#to(String, Produced)
    */
-  def `with`[K, V](implicit keySerde: KeySerde[K], valueSerde: ValueSerde[V]): ProducedJ[K, V] =
+  def `with`[K, V](implicit keySerde: HasKeySerde[K], valueSerde: HasValueSerde[V]): ProducedJ[K, V] =
     ProducedJ.`with`(keySerde.serde, valueSerde.serde)
 
   /**
@@ -53,7 +53,7 @@ object Produced {
    * @see KStream#through(String, Produced)
    * @see KStream#to(String, Produced)
    */
-  def `with`[K, V](partitioner: StreamPartitioner[K, V])(implicit keySerde: KeySerde[K],
-                                                         valueSerde: ValueSerde[V]): ProducedJ[K, V] =
+  def `with`[K, V](partitioner: StreamPartitioner[K, V])(implicit keySerde: HasKeySerde[K],
+                                                         valueSerde: HasValueSerde[V]): ProducedJ[K, V] =
     ProducedJ.`with`(keySerde.serde, valueSerde.serde, partitioner)
 }

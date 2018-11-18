@@ -70,6 +70,7 @@ class WordCountTest extends JUnitSuite with WordCountTestData {
 
   @Test def testShouldCountWords(): Unit = {
     import Serdes._
+    import keyValueAgnostic._
 
     val streamsConfiguration = getStreamsConfiguration()
 
@@ -102,6 +103,7 @@ class WordCountTest extends JUnitSuite with WordCountTestData {
 
   @Test def testShouldCountWordsMaterialized(): Unit = {
     import Serdes._
+    import keyValueAgnostic._
 
     val streamsConfiguration = getStreamsConfiguration()
 

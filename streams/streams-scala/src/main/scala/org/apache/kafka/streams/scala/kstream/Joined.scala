@@ -16,7 +16,7 @@
  */
 package org.apache.kafka.streams.scala.kstream
 
-import org.apache.kafka.common.serialization.Serde
+import org.apache.kafka.streams.scala.{KeySerde, ValueSerde}
 import org.apache.kafka.streams.kstream.{Joined => JoinedJ}
 
 object Joined {
@@ -34,10 +34,10 @@ object Joined {
    * @param otherValueSerde the otherValue serde to use. If `null` the default value serde from config will be used
    * @return new [[org.apache.kafka.streams.kstream.Joined]] instance with the provided serdes
    */
-  def `with`[K, V, VO](implicit keySerde: Serde[K],
-                       valueSerde: Serde[V],
-                       otherValueSerde: Serde[VO]): JoinedJ[K, V, VO] =
-    JoinedJ.`with`(keySerde, valueSerde, otherValueSerde)
+  def `with`[K, V, VO](implicit keySerde: KeySerde[K],
+                       valueSerde: ValueSerde[V],
+                       otherValueSerde: ValueSerde[VO]): JoinedJ[K, V, VO] =
+    JoinedJ.`with`(keySerde.serde, valueSerde.serde, otherValueSerde.serde)
 
   /**
    * Create an instance of [[org.apache.kafka.streams.kstream.Joined]] with key, value, and otherValue [[Serde]]
@@ -56,9 +56,9 @@ object Joined {
   // disable spotless scala, which wants to make a mess of the argument lists
   // format: off
   def `with`[K, V, VO](name: String)
-                      (implicit keySerde: Serde[K],
-                       valueSerde: Serde[V],
-                       otherValueSerde: Serde[VO]): JoinedJ[K, V, VO] =
-    JoinedJ.`with`(keySerde, valueSerde, otherValueSerde, name)
+                      (implicit keySerde: KeySerde[K],
+                       valueSerde: ValueSerde[V],
+                       otherValueSerde: ValueSerde[VO]): JoinedJ[K, V, VO] =
+    JoinedJ.`with`(keySerde.serde, valueSerde.serde, otherValueSerde.serde, name)
   // format:on
 }

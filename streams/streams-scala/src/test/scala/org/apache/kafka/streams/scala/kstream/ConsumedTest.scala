@@ -30,6 +30,8 @@ import org.scalatest.{FlatSpec, Matchers}
 @RunWith(classOf[JUnitRunner])
 class ConsumedTest extends FlatSpec with Matchers {
 
+  import keyValueAgnostic._
+
   "Create a Consumed" should "create a Consumed with Serdes" in {
     val consumed: Consumed[String, Long] = Consumed.`with`[String, Long]
 
